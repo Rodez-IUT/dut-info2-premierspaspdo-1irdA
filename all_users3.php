@@ -47,10 +47,9 @@
 			&nbsp;
 			<label>Status à sélectionner : </label>
 			<select name="status">
-				<option value="All">All</option>
-				<option value="Active account">Active account</option> <!-- 2 -->
-				<option value="Waiting for account validation">Waiting for account validation</option> <!-- 1 -->
-				<option value="Waiting for account deletion">Waiting for account deletion</option> <!-- 3 -->
+				<option value="2">Active account</option> <!-- 2 -->
+				<option value="1">Waiting for account validation</option> <!-- 1 -->
+				<option value="3">Waiting for account deletion</option> <!-- 3 -->
 			</select>
 			&nbsp;
 			<button type="submit">Valider</button>
@@ -58,7 +57,11 @@
 
 		<!-- Valeurs récupérées du formulaire -->
 		<?php 
-		    if (isset($_POST['lettre'])) {
+
+			$lettre = "";
+			$leStatus = 1;
+
+		    if (isset($_POST['lettre']) && isset($_POST['status'])) {
 				$lettre = htmlspecialchars($_POST['lettre']); 
 				$leStatus = $_POST['status'];
 			}
@@ -77,7 +80,7 @@
 					FROM users 
 					JOIN status s ON users.status_id = s.id 
 					WHERE username LIKE '$lettre%' 
-					/*AND s.id = $leStatus*/
+					AND s.id = $leStatus
 					ORDER BY username";
 
 			$stmt = $pdo->query($sql);
